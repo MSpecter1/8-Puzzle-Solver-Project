@@ -2,6 +2,9 @@
 
 using namespace std;
 
+int t1(int state){if (state<10){return state+1;} else return state;}
+int t2(int state){if (state<10){return state*2;} else return state;}
+
 problem::problem()
 {
     initialState[0][0]=1;
@@ -29,5 +32,4 @@ problem::problem()
     initialState[2][0]=7;
     initialState[2][1]=8;
     initialState[2][2]=0;
-
 }
