@@ -10,6 +10,7 @@
 //Resources
 // https://en.cppreference.com/w/cpp/container/set/find
 // https://stackoverflow.com/questions/15601973/stl-priority-queue-of-c-with-struct
+// https://stackoverflow.com/questions/2874441/deleting-elements-from-stdset-while-iterating
 
 using std::cin;
 using std::cout;
@@ -18,6 +19,7 @@ using std::endl;
 
 int UniformCostSearch(problem);
 int AStarMisplacedTileSearch(problem);
+int AStarEuclideanDistanceSearch(problem);
 int TestUniformCostSearch(problem);
 
 struct state{
@@ -94,10 +96,10 @@ int test(problem newProblem){
 int main() {
     problem *temp = new problem();
     
-    //UniformCostSearch(*temp);
-    //AStarMisplacedTileSearch(*temp);
-
-    test(*temp);
+    UniformCostSearch(*temp);
+    // AStarMisplacedTileSearch(*temp);
+    // AStarEuclideanDistanceSearch(*temp);
+    // test(*temp);
     return 0;
 }
 
@@ -148,7 +150,10 @@ int UniformCostSearch(problem newProblem){
 
         stateObject cur = frontier.top();
         frontier.pop();
-        frontierSet.erase(cur);
+        for (auto it=frontierSet.begin(); it != frontierSet.end();)
+        {
+            if(cur==*it){it=frontierSet.erase(it);}else{++it;};
+        }
 
         //GOAL TEST
         if(newProblem.findMisplacedTilesCNT(cur.state)==0)
@@ -231,7 +236,7 @@ int AStarMisplacedTileSearch(problem newProblem){
     stateObject solution;
     // vector<stateObject> solutionVector; 
 
-    std::priority_queue<stateObject, vector<stateObject>, Compare> frontier;
+    std::priority_queue<stateObject, vector<stateObject>, Compare> frontier; //priority queue
     std::set<stateObject> frontierSet; //set in order to keep track of states inside frontier
 
     stateObject init = {{newProblem.initialState[0][0], newProblem.initialState[0][1], newProblem.initialState[0][2], //initialize
@@ -246,17 +251,21 @@ int AStarMisplacedTileSearch(problem newProblem){
 
     std::set<stateObject> explored; //initialize explored states as empty
     while(!frontier.empty()) 
-    {
-        cout<<"Queue: "<<endl;
-        for (auto it=frontierSet.begin(); it != frontierSet.end(); ++it){
-            newProblem.displayState(it->state);
-            cout<<"COST: "<<it->cost<<endl;
-        }
-        cout<<endl;     
+    { 
+        // cout<<"Queue: "<<endl;
+        // for (auto it=frontierSet.begin(); it != frontierSet.end(); ++it){
+        //     newProblem.displayState(it->state);
+        //     cout<<"COST: "<<it->cost<<endl;
+        // }
+        // cout<<endl;    
 
         stateObject cur = frontier.top();
         frontier.pop();
-        frontierSet.erase(cur);
+        // frontierSet.erase(cur);
+        for (auto it=frontierSet.begin(); it != frontierSet.end();)
+        {
+            if(cur==*it){it=frontierSet.erase(it);}else{++it;};
+        }
 
         cout<<"Current State: " << endl;
         newProblem.displayState(cur.state);
@@ -316,11 +325,12 @@ int AStarMisplacedTileSearch(problem newProblem){
                 //newProblem.displayState(node.state);
                 frontier.push(node); 
                 frontierSet.insert(node);
-
-                if (maxQSize<frontier.size()){maxQSize=frontier.size();}
                 expanded = true;
             }
         }
+
+        cout<<"FRONTIER SIZE: "<<frontier.size()<<endl;
+        if (maxQSize<frontier.size()){maxQSize=frontier.size();}
 
         if (expanded){expandedNodes++;}
         cout<<"\n";
@@ -341,9 +351,9 @@ int AStarEuclideanDistanceSearch(problem newProblem){
     int maxQSize = 0;
     
     stateObject solution;
-    vector<stateObject> solutionVector; 
+    // vector<stateObject> solutionVector; 
 
-    std::priority_queue<stateObject, vector<stateObject>, Compare> frontier;
+    std::priority_queue<stateObject, vector<stateObject>, Compare> frontier; //priority queue
     std::set<stateObject> frontierSet; //set in order to keep track of states inside frontier
 
     stateObject init = {{newProblem.initialState[0][0], newProblem.initialState[0][1], newProblem.initialState[0][2], //initialize
@@ -358,17 +368,21 @@ int AStarEuclideanDistanceSearch(problem newProblem){
 
     std::set<stateObject> explored; //initialize explored states as empty
     while(!frontier.empty()) 
-    {
-        cout<<"Queue: "<<endl;
-        for (auto it=frontierSet.begin(); it != frontierSet.end(); ++it){
-            newProblem.displayState(it->state);
-            cout<<"COST: "<<it->cost<<endl;
-        }
-        cout<<endl;     
+    { 
+        // cout<<"Queue: "<<endl;
+        // for (auto it=frontierSet.begin(); it != frontierSet.end(); ++it){
+        //     newProblem.displayState(it->state);
+        //     cout<<"COST: "<<it->cost<<endl;
+        // }
+        // cout<<endl;    
 
         stateObject cur = frontier.top();
         frontier.pop();
-        frontierSet.erase(cur);
+        // frontierSet.erase(cur);
+        for (auto it=frontierSet.begin(); it != frontierSet.end();)
+        {
+            if(cur==*it){it=frontierSet.erase(it);}else{++it;};
+        }
 
         cout<<"Current State: " << endl;
         newProblem.displayState(cur.state);
@@ -380,13 +394,13 @@ int AStarEuclideanDistanceSearch(problem newProblem){
         if(newProblem.findMisplacedTilesCNT(cur.state)==0)
         {
             solution = cur; //solution found
-            solutionVector.push_back(cur);
-            // cout<<"\tSolution Found!"<<endl; 
-            // cout<<"Search Review: "<<endl;
-            // cout<<"\tNodes Expanded: "<<expandedNodes<<endl;
-            // cout<<"\tMaximum Queue Size: "<<maxQSize<<endl;
-            // cout<<"\tSolution Depth: "<<solution.depth<<endl;
-            // return 0;
+            // solutionVector.push_back(cur);
+            cout<<"\tSolution Found!"<<endl; 
+            cout<<"Search Review: "<<endl;
+            cout<<"\tNodes Expanded: "<<expandedNodes<<endl;
+            cout<<"\tMaximum Queue Size: "<<maxQSize<<endl;
+            cout<<"\tSolution Depth: "<<solution.depth<<endl;
+            return 0;
         } 
         //
 
@@ -410,7 +424,7 @@ int AStarEuclideanDistanceSearch(problem newProblem){
             stateObject node = {{   temp[0][0], temp[0][1], temp[0][2], //initialize with temp
                                     temp[1][0], temp[1][1], temp[1][2],
                                     temp[2][0], temp[2][1], temp[2][2]
-                                }, newProblem.findMisplacedTilesCNT(temp)+cur.depth+1, cur.depth+1}; // cur.cost+1 cost is just current cost+1 since this is uniform cost search (closest to initial first)
+                                }, newProblem.findEuclideanDistanceHeuristic(temp)+cur.depth+1, cur.depth+1}; // cur.cost+1 cost is just current cost+1 since this is uniform cost search (closest to initial first)
 
                 bool isExplored = false;
                 for (auto it=explored.begin(); it != explored.end(); ++it){
@@ -428,11 +442,12 @@ int AStarEuclideanDistanceSearch(problem newProblem){
                 //newProblem.displayState(node.state);
                 frontier.push(node); 
                 frontierSet.insert(node);
-
-                if (maxQSize<frontier.size()){maxQSize=frontier.size();}
                 expanded = true;
             }
         }
+        
+        cout<<"FRONTIER SIZE: "<<frontier.size()<<endl;
+        if (maxQSize<frontier.size()){maxQSize=frontier.size();}
 
         if (expanded){expandedNodes++;}
         cout<<"\n";
@@ -442,11 +457,14 @@ int AStarEuclideanDistanceSearch(problem newProblem){
     cout<<"\tNodes Expanded: "<<expandedNodes<<endl;
     cout<<"\tMaximum Queue Size: "<<maxQSize<<endl;
     cout<<"\tSolution Depth: "<<solution.depth<<endl;
-    for(int i=0; i<solutionVector.size(); i++){
-        cout<<"\tSolution Depth #"<<i<<": "<<solutionVector[i].cost<<endl;
-    }
+    // for(int i=0; i<solutionVector.size(); i++){
+    //     cout<<"\tSolution Depth #"<<i<<": "<<solutionVector[i].cost<<endl;
+    // }
     return 0;
 }
+
+
+
 
 int TestUniformCostSearch(problem newProblem){
     int expandedNodes = 0;

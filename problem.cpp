@@ -85,30 +85,108 @@ int* moveLeft(int state[3][3]){
 }
 
 problem::problem()
-{
-    initialState[0][0]=0;
-    initialState[0][1]=1;
-    initialState[0][2]=2;
+{   
+    cout<<"Pick a default puzzle: "<<endl;
+    cout<<"1. Trivial"<<endl;
+    cout<<"2. Very Easy"<<endl;
+    cout<<"3. Easy"<<endl;
+    cout<<"4. Doable"<<endl;
+    cout<<"5. Oh Boy"<<endl;
+    cout<<"6. Impossible"<<endl;
+
+    int num;
+    cin>>num;
+
+    switch (num)
+    {
+    case 1:
+        //Trivial
+        initialState[0][0]=1;
+        initialState[0][1]=2;
+        initialState[0][2]=3;
+        
+        initialState[1][0]=4;
+        initialState[1][1]=5;
+        initialState[1][2]=6;
+
+        initialState[2][0]=7;
+        initialState[2][1]=8;
+        initialState[2][2]=0;
+        break;
+    case 2:
+        //Very Easy
+        initialState[0][0]=1;
+        initialState[0][1]=2;
+        initialState[0][2]=3;
+        
+        initialState[1][0]=4;
+        initialState[1][1]=5;
+        initialState[1][2]=6;
+
+        initialState[2][0]=7;
+        initialState[2][1]=0;
+        initialState[2][2]=8;
+        break;
+    case 3:
+        //Easy
+        initialState[0][0]=1;
+        initialState[0][1]=2;
+        initialState[0][2]=0;
+        
+        initialState[1][0]=4;
+        initialState[1][1]=5;
+        initialState[1][2]=3;
+
+        initialState[2][0]=7;
+        initialState[2][1]=8;
+        initialState[2][2]=6;
+        break;
+    case 4:
+        //Doable
+        initialState[0][0]=0;
+        initialState[0][1]=1;
+        initialState[0][2]=2;
+        
+        initialState[1][0]=4;
+        initialState[1][1]=5;
+        initialState[1][2]=3;
+
+        initialState[2][0]=7;
+        initialState[2][1]=8;
+        initialState[2][2]=6;
+        break;
+    case 5:
+        //Oh Boy
+        initialState[0][0]=8;
+        initialState[0][1]=7;
+        initialState[0][2]=1;
+        
+        initialState[1][0]=6;
+        initialState[1][1]=0;
+        initialState[1][2]=2;
+
+        initialState[2][0]=5;
+        initialState[2][1]=4;
+        initialState[2][2]=3;
+        break;
+    case 6:
+        //Impossible
+        initialState[0][0]=1;
+        initialState[0][1]=2;
+        initialState[0][2]=3;
+        
+        initialState[1][0]=4;
+        initialState[1][1]=5;
+        initialState[1][2]=6;
+
+        initialState[2][0]=8;
+        initialState[2][1]=7;
+        initialState[2][2]=0;
+        break;
     
-    initialState[1][0]=4;
-    initialState[1][1]=5;
-    initialState[1][2]=3;
-
-    initialState[2][0]=7;
-    initialState[2][1]=8;
-    initialState[2][2]=6;
-
-    // initialState[0][0]=8;
-    // initialState[0][1]=7;
-    // initialState[0][2]=1;
-    
-    // initialState[1][0]=6;
-    // initialState[1][1]=0;
-    // initialState[1][2]=2;
-
-    // initialState[2][0]=5;
-    // initialState[2][1]=4;
-    // initialState[2][2]=3;
+    default:
+        break;
+    }
 
     //////////////////
     
