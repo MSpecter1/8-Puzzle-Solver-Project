@@ -19,6 +19,8 @@ class problem{
         int initialState[3][3];
         int goalState[3][3];
         problem();
+        problem(int init[3][3]);
+
         void displayState(const int state[3][3]);
         int findMisplacedTilesCNT(int state[3][3]);
         double findEuclideanDistance(int x, int y, int state[3][3]);

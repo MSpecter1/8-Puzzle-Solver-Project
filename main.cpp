@@ -94,12 +94,71 @@ int test(problem newProblem){
 
 
 int main() {
-    problem *temp = new problem();
-    
-    UniformCostSearch(*temp);
+    // problem *temp = new problem();
+    // UniformCostSearch(*temp);
     // AStarMisplacedTileSearch(*temp);
     // AStarEuclideanDistanceSearch(*temp);
     // test(*temp);
+
+    cout<<"Welcome to 862151198 8 Puzzle Solver."<<"\nType 1 to use a default puzzle or Type 2 to enter your own puzzle."<<endl;
+    int puzzleChoice; 
+    cin>>puzzleChoice;
+
+    cout<<endl;
+    problem *problemObject;
+    switch (puzzleChoice)
+    {
+    case 1:
+        problemObject = new problem();
+        break;
+    case 2:
+        cout<<"Enter your puzzle using a 0 to represent a blank space and with spaces between numbers"<<endl;
+        int inputArr[3][3];
+    	for(int i=0; i<3;i++){
+            cout<<"Enter row "<< i+1 <<": "<<endl;
+            for (int j =0; j<3; j++) 
+            {
+                int num;
+                cin>>num;
+                inputArr[i][j]=num;
+                if (cin.peek()==' ') //check for space
+                {cin.ignore();}
+            }
+        }
+        cout<<"\nYour Custom Puzzle:"<<endl;
+        problemObject->displayState(inputArr);
+        problemObject = new problem(inputArr);
+        break;
+    
+    default:
+        cout<<"Please Enter a valid choice!"<<endl;
+        break;
+    }
+    cout<<endl;
+
+    cout<<"Enter your choice of an algorithm:"<<endl;
+    cout<<"1. Uniform Cost Search"<<endl;
+    cout<<"2. A* Search with Misplaced Tile Heuristic"<<endl;
+    cout<<"3. A* Search with Euclidean Distance Heuristic"<<endl;
+    int algorithmChoice;
+    cin>>algorithmChoice; cout<<endl;
+
+    switch (algorithmChoice)
+    {
+    case 1:
+        UniformCostSearch(*problemObject);
+        break;
+    case 2:
+        AStarMisplacedTileSearch(*problemObject);
+        break;
+    case 3:
+        AStarEuclideanDistanceSearch(*problemObject);
+        break;
+    
+    default:
+        cout<<"Please Enter a valid choice!"<<endl;
+        break;
+    }
     return 0;
 }
 
@@ -155,11 +214,16 @@ int UniformCostSearch(problem newProblem){
             if(cur==*it){it=frontierSet.erase(it);}else{++it;};
         }
 
+        cout<<"State to Expand: " << endl;
+        newProblem.displayState(cur.state);
+        cout<<"With cost of "<<cur.cost<<endl;
+        
         //GOAL TEST
         if(newProblem.findMisplacedTilesCNT(cur.state)==0)
         {
             solution = cur; //solution found
-            cout<<"\tSolution Found!"<<endl; 
+            cout<<endl;
+            cout<<"Solution Found!"<<endl; 
             cout<<"Search Review: "<<endl;
             cout<<"\tNodes Expanded: "<<expandedNodes<<endl;
             cout<<"\tMaximum Queue Size: "<<maxQSize<<endl;
@@ -168,10 +232,6 @@ int UniformCostSearch(problem newProblem){
         } 
         //
 
-        cout<<"Current State: " << endl;
-        newProblem.displayState(cur.state);
-        cout<<"With cost of "<<cur.cost<<endl;
-        
         explored.insert(cur); //add leaf to explored state
 
         // cout<<"\n--------EXPLORED SET: --------------"<<endl;
@@ -208,7 +268,7 @@ int UniformCostSearch(problem newProblem){
 
             //if((explored.find(node)==explored.end() && frontierSet.find(node)==frontierSet.end())){ //Only expand if not found inside explored set or frontier set
             if(!isExplored&&!isInFrontier){ //Only expand if not found inside explored set or frontier set
-                cout<<"\tExpanding node with method "<<i<<endl;
+                // cout<<"\tExpanding node with method "<<i<<endl;
                 //newProblem.displayState(node.state);
                 frontier.push(node); 
                 frontierSet.insert(node);
@@ -218,7 +278,10 @@ int UniformCostSearch(problem newProblem){
             }
         }
 
-        if (expanded){expandedNodes++;}
+        if (expanded){
+            cout<<"Expanding..."<<endl;
+            expandedNodes++;
+            }
         cout<<"\n";
     }
 
@@ -267,9 +330,9 @@ int AStarMisplacedTileSearch(problem newProblem){
             if(cur==*it){it=frontierSet.erase(it);}else{++it;};
         }
 
-        cout<<"Current State: " << endl;
+        cout<<"State To Expand: " << endl;
         newProblem.displayState(cur.state);
-        cout<<"With cost of "<<cur.cost<<endl;
+        cout<<"With a g(n) of "<<cur.depth<<" and a h(n) of "<<cur.cost-cur.depth<<" for a total cost of "<<cur.cost<<endl;
         
         explored.insert(cur); //add leaf to explored state
 
@@ -278,7 +341,8 @@ int AStarMisplacedTileSearch(problem newProblem){
         {
             solution = cur; //solution found
             // solutionVector.push_back(cur);
-            cout<<"\tSolution Found!"<<endl; 
+            cout<<endl;
+            cout<<"Solution Found!"<<endl; 
             cout<<"Search Review: "<<endl;
             cout<<"\tNodes Expanded: "<<expandedNodes<<endl;
             cout<<"\tMaximum Queue Size: "<<maxQSize<<endl;
@@ -321,18 +385,19 @@ int AStarMisplacedTileSearch(problem newProblem){
 
             //if((explored.find(node)==explored.end() && frontierSet.find(node)==frontierSet.end())){ //Only expand if not found inside explored set or frontier set
             if(!isExplored&&!isInFrontier){ //Only expand if not found inside explored set or frontier set
-                cout<<"\tExpanding node with method "<<i<<endl;
+                // cout<<"\tExpanding node with method "<<i<<endl;
                 //newProblem.displayState(node.state);
                 frontier.push(node); 
                 frontierSet.insert(node);
                 expanded = true;
             }
         }
-
-        cout<<"FRONTIER SIZE: "<<frontier.size()<<endl;
         if (maxQSize<frontier.size()){maxQSize=frontier.size();}
 
-        if (expanded){expandedNodes++;}
+        if (expanded){
+            cout<<"Expanding..."<<endl;
+            expandedNodes++;
+            }
         cout<<"\n";
     }
 
@@ -384,9 +449,9 @@ int AStarEuclideanDistanceSearch(problem newProblem){
             if(cur==*it){it=frontierSet.erase(it);}else{++it;};
         }
 
-        cout<<"Current State: " << endl;
+        cout<<"State to Expand: " << endl;
         newProblem.displayState(cur.state);
-        cout<<"With cost of "<<cur.cost<<endl;
+        cout<<"With a g(n) of "<<cur.depth<<" and a h(n) of "<<cur.cost-cur.depth<<" for a total cost of "<<cur.cost<<endl;
         
         explored.insert(cur); //add leaf to explored state
 
@@ -395,7 +460,8 @@ int AStarEuclideanDistanceSearch(problem newProblem){
         {
             solution = cur; //solution found
             // solutionVector.push_back(cur);
-            cout<<"\tSolution Found!"<<endl; 
+            cout<<endl;
+            cout<<"Solution Found!"<<endl; 
             cout<<"Search Review: "<<endl;
             cout<<"\tNodes Expanded: "<<expandedNodes<<endl;
             cout<<"\tMaximum Queue Size: "<<maxQSize<<endl;
@@ -438,7 +504,7 @@ int AStarEuclideanDistanceSearch(problem newProblem){
 
             //if((explored.find(node)==explored.end() && frontierSet.find(node)==frontierSet.end())){ //Only expand if not found inside explored set or frontier set
             if(!isExplored&&!isInFrontier){ //Only expand if not found inside explored set or frontier set
-                cout<<"\tExpanding node with method "<<i<<endl;
+                // cout<<"\tExpanding node with method "<<i<<endl;
                 //newProblem.displayState(node.state);
                 frontier.push(node); 
                 frontierSet.insert(node);
@@ -446,10 +512,12 @@ int AStarEuclideanDistanceSearch(problem newProblem){
             }
         }
         
-        cout<<"FRONTIER SIZE: "<<frontier.size()<<endl;
         if (maxQSize<frontier.size()){maxQSize=frontier.size();}
 
-        if (expanded){expandedNodes++;}
+        if (expanded){
+            cout<<"Expanding..."<<endl;
+            expandedNodes++;
+            }
         cout<<"\n";
     }
 
@@ -462,9 +530,6 @@ int AStarEuclideanDistanceSearch(problem newProblem){
     // }
     return 0;
 }
-
-
-
 
 int TestUniformCostSearch(problem newProblem){
     int expandedNodes = 0;

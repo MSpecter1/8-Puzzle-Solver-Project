@@ -34,7 +34,7 @@ int* moveUp(int state[3][3]){
     }
     else
     {
-        cout<<"\tCan't move up!"<<endl;
+        // cout<<"\tCan't move up!"<<endl;
     }
     return 0;
 }
@@ -49,7 +49,7 @@ int* moveDown(int state[3][3]){
     }
     else
     {
-        cout<<"\tCan't move down!"<<endl;
+        // cout<<"\tCan't move down!"<<endl;
     }
     return 0;
 }
@@ -64,7 +64,7 @@ int* moveRight(int state[3][3]){
     }
     else
     {
-        cout<<"\tCan't move right!"<<endl;
+        // cout<<"\tCan't move right!"<<endl;
     }
     return 0;
 }
@@ -79,13 +79,14 @@ int* moveLeft(int state[3][3]){
     }
     else
     {
-        cout<<"\tCan't move left!"<<endl;
+        // cout<<"\tCan't move left!"<<endl;
     }
     return 0;
 }
 
 problem::problem()
 {   
+    //SET INITIAL
     cout<<"Pick a default puzzle: "<<endl;
     cout<<"1. Trivial"<<endl;
     cout<<"2. Very Easy"<<endl;
@@ -188,7 +189,37 @@ problem::problem()
         break;
     }
 
-    //////////////////
+    ////////////////// SET GOAL
+    
+    goalState[0][0]=1;
+    goalState[0][1]=2;
+    goalState[0][2]=3;
+    
+    goalState[1][0]=4;
+    goalState[1][1]=5;
+    goalState[1][2]=6;
+
+    goalState[2][0]=7;
+    goalState[2][1]=8;
+    goalState[2][2]=0;
+}
+
+problem::problem(int init[3][3])
+{   
+    // SET INITIAL
+    initialState[0][0]=init[0][0];
+    initialState[0][1]=init[0][1];
+    initialState[0][2]=init[0][2];
+    
+    initialState[1][0]=init[1][0];
+    initialState[1][1]=init[1][1];
+    initialState[1][2]=init[1][2];
+
+    initialState[2][0]=init[2][0];
+    initialState[2][1]=init[2][1];
+    initialState[2][2]=init[2][2];
+
+    ////////////////// SET GOAL
     
     goalState[0][0]=1;
     goalState[0][1]=2;
