@@ -4,6 +4,8 @@
 #include <iostream>
 #include <math.h>
 
+//Michael He 862151198
+
 int* moveUp(int state[3][3]); // swaps the 0 with the number above it
 int* moveDown(int state[3][3]); // swaps the 0 with the number below it
 int* moveRight(int state[3][3]); // swaps the 0 with the number to its right 

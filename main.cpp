@@ -5,6 +5,8 @@
 
 #include "problem.h"
 
+//Michael He 862151198
+
 //Resources
 // https://en.cppreference.com/w/cpp/container/set/find
 // https://stackoverflow.com/questions/15601973/stl-priority-queue-of-c-with-struct
@@ -24,7 +26,6 @@ struct stateObject{ //object to store an array state of a puzzle, cost and depth
     int depth; 
     bool operator<(const stateObject& rhs) const
     {
-        //return cost < rhs.cost;
         if (state[0][0]<rhs.state[0][0]||state[0][1]<rhs.state[0][1]||state[0][2]<rhs.state[0][2]||
             state[1][0]<rhs.state[1][0]||state[1][1]<rhs.state[1][1]||state[1][2]<rhs.state[1][2]||
             state[2][0]<rhs.state[2][0]||state[2][1]<rhs.state[2][1]||state[2][2]<rhs.state[2][2]){

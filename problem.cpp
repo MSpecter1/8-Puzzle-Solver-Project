@@ -1,5 +1,7 @@
 #include "problem.h"
 
+//Michael He 862151198
+
 using namespace std;
 
 std::pair<int, int> getSpaceLocation(int state[3][3]){ // returns the location of 0 (space) in a state array
