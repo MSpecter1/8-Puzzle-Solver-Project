@@ -2,10 +2,7 @@
 
 using namespace std;
 
-int t1(int state){if (state<10){return state+1;} else return state;}
-int t2(int state){if (state<10){return state*2;} else return state;}
-
-std::pair<int, int> getSpaceLocation(int state[3][3]){
+std::pair<int, int> getSpaceLocation(int state[3][3]){ // returns the location of 0 (space) in a state array
     try{
     for (int r = 0; r < 3; r++)
     {
@@ -20,6 +17,25 @@ std::pair<int, int> getSpaceLocation(int state[3][3]){
     }
     catch(exception err){
         cout<<"\tPuzzle does not have a 0!"<<endl;
+    }
+    return std::make_pair(0,0);
+}
+
+std::pair<int, int> getLocation(int n, int state[3][3]){ //returns the location of a number n inside of a state array
+    try{
+    for (int r = 0; r < 3; r++)
+    {
+        for (int c = 0; c < 3; c++)
+        {
+            if(state[r][c] == n)
+            {
+                return std::make_pair(r,c);
+            }
+        }
+    }
+    }
+    catch(exception err){
+        cout<<"\tCant find!"<<endl;
     }
     return std::make_pair(0,0);
 }
@@ -259,32 +275,9 @@ int problem::findMisplacedTilesCNT(int state[3][3]){
     return misplacedTileCnt;
 }
 
-std::pair<int, int> getLocation(int n, int state[3][3]){
-    try{
-    for (int r = 0; r < 3; r++)
-    {
-        for (int c = 0; c < 3; c++)
-        {
-            if(state[r][c] == n)
-            {
-                return std::make_pair(r,c);
-            }
-        }
-    }
-    }
-    catch(exception err){
-        cout<<"\tCant find!"<<endl;
-    }
-    return std::make_pair(0,0);
-}
-
 double problem::findEuclideanDistance(int x,int y, int state[3][3]){
     if(state[x][y]!=goalState[x][y]){
         std::pair<int,int> goallocation = getLocation(state[x][y], goalState);
-        // cout<<goallocation.first-x<<", "<<goallocation.second-y<<";    ";
-        // cout<<pow(goallocation.first-x, 2)<<", "<<pow(goallocation.second-y,2)<<endl;
-        // cout<<endl;
-        // cout<<"state: "<<state[x][y]<<", " <<sqrt(pow(goallocation.first-x, 2) + pow(goallocation.second-y,2)) <<endl;
         return sqrt(pow(goallocation.first-x, 2) + pow(goallocation.second-y,2));
     }
     else{

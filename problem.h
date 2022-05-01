@@ -4,15 +4,10 @@
 #include <iostream>
 #include <math.h>
 
-using namespace std;
-
-int t1(int state);
-int t2(int state);
-
-int* moveUp(int state[3][3]);
-int* moveDown(int state[3][3]);
-int* moveRight(int state[3][3]);
-int* moveLeft(int state[3][3]);
+int* moveUp(int state[3][3]); // swaps the 0 with the number above it
+int* moveDown(int state[3][3]); // swaps the 0 with the number below it
+int* moveRight(int state[3][3]); // swaps the 0 with the number to its right 
+int* moveLeft(int state[3][3]); // swaps the 0 with the number to its left
 
 class problem{
     public:
@@ -21,25 +16,14 @@ class problem{
         problem();
         problem(int init[3][3]);
 
-        void displayState(const int state[3][3]);
-        int findMisplacedTilesCNT(int state[3][3]);
-        double findEuclideanDistance(int x, int y, int state[3][3]);
-        double findEuclideanDistanceHeuristic(int state[3][3]);
+        void displayState(const int state[3][3]); // displays the the current state
+        int findMisplacedTilesCNT(int state[3][3]); // returns the number of numbers in the state that are not in the correct place
+        double findEuclideanDistance(int x, int y, int state[3][3]); // checks the number in position x,y and returns its euclidean distance to its goal location
+        double findEuclideanDistanceHeuristic(int state[3][3]); // returns the sum of the euclidean distances of all the numbers in the state array
 
-        //TEST
-        int init = 0;
-        int goal = 10;
-        int test1(int state){if (state<goal){return state+1;} else return state;}
-        int test2(int state){if (state<goal){return state*2;} else return state;}
-        
-        typedef int (*OperatorTestFunctions) (int state);
-        int numTestOperators = 2;
-        OperatorTestFunctions TestOperators[2] = {t1, t2};
-        //
-
-        typedef int* (*OperatorFunctions) (int state[3][3]);
-        int numOperators = 4;
-        OperatorFunctions Operators[4] = {moveRight, moveLeft, moveUp, moveDown};
+        typedef int* (*OperatorFunctions) (int state[3][3]); 
+        int numOperators = 4; 
+        OperatorFunctions Operators[4] = {moveRight, moveLeft, moveUp, moveDown}; // array of operators
 
 };
 
